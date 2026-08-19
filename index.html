@@ -1,0 +1,3313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<meta name="description"
+content="Meta Ads Command Center — specialist setup, monitoring, tracking and campaign analysis console.">
+
+<title>Meta Ads Command Center</title>
+
+<style>
+:root{
+    --bg:#07111f;
+    --panel:#0d1a2b;
+    --panel2:#101f33;
+    --line:#21344e;
+    --text:#edf4ff;
+    --muted:#91a4bd;
+    --accent:#2dd4bf;
+    --accent2:#38bdf8;
+    --good:#34d399;
+    --warn:#fbbf24;
+    --bad:#fb7185;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+html,body{
+    margin:0;
+    min-height:100%;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    color:var(--text);
+    background:
+        radial-gradient(
+            circle at 20% 0%,
+            #102744 0,
+            #07111f 45%,
+            #050b14 100%
+        );
+}
+
+button,
+input,
+select,
+textarea{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+a{
+    color:inherit;
+}
+
+/* =========================
+   APPLICATION
+========================= */
+
+.app{
+    display:grid;
+    grid-template-columns:255px 1fr;
+    min-height:100vh;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+    border-right:1px solid var(--line);
+    background:#050c16e8;
+    padding:20px 15px;
+    position:sticky;
+    top:0;
+    height:100vh;
+}
+
+.brand{
+    display:flex;
+    gap:11px;
+    align-items:center;
+    padding:7px 9px 23px;
+}
+
+.logo{
+    width:42px;
+    height:42px;
+    border-radius:12px;
+    background:
+        linear-gradient(
+            135deg,
+            var(--accent),
+            var(--accent2)
+        );
+    display:grid;
+    place-items:center;
+    color:#03121a;
+    font-weight:900;
+}
+
+.brand strong{
+    display:block;
+    font-size:14px;
+    letter-spacing:.6px;
+}
+
+.brand span{
+    display:block;
+    color:var(--muted);
+    font-size:10px;
+    margin-top:3px;
+}
+
+.nav{
+    display:grid;
+    gap:7px;
+}
+
+.nav button{
+    border:1px solid transparent;
+    background:transparent;
+    color:#aebdd0;
+    text-align:left;
+    padding:12px 13px;
+    border-radius:10px;
+}
+
+.nav button:hover,
+.nav button.active{
+    background:#10243a;
+    border-color:#1d3a56;
+    color:#fff;
+}
+
+.side-note{
+    position:absolute;
+    left:15px;
+    right:15px;
+    bottom:16px;
+    padding:12px;
+    border:1px solid var(--line);
+    border-radius:12px;
+    background:#0b1727;
+    color:var(--muted);
+    font-size:11px;
+    line-height:1.5;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main{
+    min-width:0;
+}
+
+.topbar{
+    height:68px;
+    border-bottom:1px solid var(--line);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 27px;
+    background:#07111faa;
+    backdrop-filter:blur(10px);
+    position:sticky;
+    top:0;
+    z-index:5;
+}
+
+.status{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    color:var(--muted);
+    font-size:12px;
+}
+
+.dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:var(--good);
+    box-shadow:0 0 12px var(--good);
+}
+
+.content{
+    padding:27px;
+    max-width:1500px;
+    margin:auto;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    display:flex;
+    justify-content:space-between;
+    gap:20px;
+    align-items:flex-start;
+    margin-bottom:22px;
+}
+
+.hero h1{
+    font-size:29px;
+    margin:0 0 7px;
+}
+
+.hero p{
+    color:var(--muted);
+    margin:0;
+    max-width:850px;
+}
+
+/* =========================
+   GRID
+========================= */
+
+.grid{
+    display:grid;
+    gap:15px;
+}
+
+.g2{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+}
+
+.g3{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+}
+
+.g4{
+    grid-template-columns:repeat(4,minmax(0,1fr));
+}
+
+/* =========================
+   CARD
+========================= */
+
+.card{
+    background:
+        linear-gradient(
+            180deg,
+            #101f33f5,
+            #0a1625f5
+        );
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:18px;
+    box-shadow:
+        0 18px 55px #00000047;
+}
+
+.card h2,
+.card h3{
+    margin:0 0 10px;
+}
+
+.muted{
+    color:var(--muted);
+}
+
+.small{
+    font-size:12px;
+}
+
+.label{
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:.12em;
+    color:#7f94ae;
+    margin-bottom:7px;
+}
+
+.kpi{
+    font-size:29px;
+    font-weight:800;
+}
+
+/* =========================
+   ROW
+========================= */
+
+.row{
+    display:flex;
+    gap:9px;
+    align-items:center;
+    flex-wrap:wrap;
+}
+
+.between{
+    justify-content:space-between;
+}
+
+/* =========================
+   INPUT
+========================= */
+
+input,
+select,
+textarea{
+    width:100%;
+    background:#081525;
+    border:1px solid #29405d;
+    color:#eef6ff;
+    border-radius:10px;
+    padding:11px 12px;
+    outline:none;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:var(--accent);
+    box-shadow:
+        0 0 0 3px #2dd4bf17;
+}
+
+.field{
+    margin:13px 0;
+}
+
+.field label{
+    display:block;
+    font-size:12px;
+    color:#aabbd0;
+    margin-bottom:6px;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.btn{
+    border:1px solid #29445f;
+    background:#10233a;
+    color:#eaf5ff;
+    border-radius:10px;
+    padding:10px 14px;
+    font-weight:700;
+}
+
+.btn:hover{
+    filter:brightness(1.15);
+}
+
+.btn.primary{
+    background:
+        linear-gradient(
+            135deg,
+            #19bda8,
+            #22a8dc
+        );
+    border-color:transparent;
+    color:#03151a;
+}
+
+.btn.ghost{
+    background:transparent;
+}
+
+.btn.link{
+    display:inline-flex;
+    text-decoration:none;
+    align-items:center;
+    gap:6px;
+}
+
+/* =========================
+   BADGES
+========================= */
+
+.badge{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    border-radius:999px;
+    padding:5px 9px;
+    font-size:10px;
+    font-weight:800;
+}
+
+.good{
+    background:#34d3991f;
+    color:#6ee7b7;
+}
+
+.warn{
+    background:#fbbf241f;
+    color:#fcd34d;
+}
+
+.bad{
+    background:#fb71851f;
+    color:#fda4af;
+}
+
+.neutral{
+    background:#15263a;
+    color:#b9c9db;
+}
+
+/* =========================
+   PROGRESS
+========================= */
+
+.progress{
+    height:9px;
+    background:#071322;
+    border-radius:999px;
+    overflow:hidden;
+    border:1px solid #1b3049;
+}
+
+.progress i{
+    display:block;
+    height:100%;
+    background:
+        linear-gradient(
+            90deg,
+            var(--accent),
+            var(--accent2)
+        );
+    width:0;
+}
+
+/* =========================
+   STEPPER
+========================= */
+
+.stepper{
+    display:grid;
+    grid-template-columns:repeat(8,1fr);
+    gap:6px;
+    margin-bottom:16px;
+}
+
+.step{
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:8px 5px;
+    text-align:center;
+    color:#71859d;
+    font-size:9px;
+}
+
+.step.active{
+    border-color:var(--accent);
+    color:#dffefa;
+    background:#0d2930;
+}
+
+.step.done{
+    color:#7ee8ca;
+    border-color:#24594f;
+}
+
+/* =========================
+   SETUP
+========================= */
+
+.setup-grid{
+    display:grid;
+    grid-template-columns:1fr 325px;
+    gap:15px;
+}
+
+.official{
+    border:1px solid #22435d;
+    background:#091a2a;
+    border-radius:12px;
+    padding:13px;
+}
+
+.official a{
+    color:#6ee7ff;
+    text-decoration:none;
+    font-weight:800;
+    font-size:12px;
+}
+
+.official a:hover{
+    text-decoration:underline;
+}
+
+.alert{
+    border:1px solid #5b4520;
+    background:#78520c1f;
+    color:#f6d37c;
+    border-radius:11px;
+    padding:11px;
+    font-size:12px;
+    line-height:1.5;
+}
+
+/* =========================
+   CHECKLIST
+========================= */
+
+.checklist{
+    display:grid;
+    gap:8px;
+}
+
+.check{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    align-items:center;
+    padding:10px 11px;
+    border:1px solid #1c3048;
+    border-radius:10px;
+    background:#091728;
+    font-size:12px;
+}
+
+/* =========================
+   SCORE
+========================= */
+
+.score-ring{
+    width:110px;
+    height:110px;
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    background:
+        conic-gradient(
+            var(--accent)
+            calc(var(--score)*1%),
+            #17304a 0
+        );
+    position:relative;
+}
+
+.score-ring:after{
+    content:"";
+    position:absolute;
+    inset:9px;
+    background:#0c1b2c;
+    border-radius:50%;
+}
+
+.score-ring span{
+    position:relative;
+    z-index:1;
+    font-size:27px;
+    font-weight:900;
+}
+
+/* =========================
+   ANALYSIS
+========================= */
+
+.bar{
+    margin:10px 0;
+}
+
+.bar .row{
+    font-size:11px;
+    margin-bottom:5px;
+}
+
+.barline{
+    height:7px;
+    background:#071322;
+    border-radius:99px;
+    overflow:hidden;
+}
+
+.barline i{
+    display:block;
+    height:100%;
+    background:
+        linear-gradient(
+            90deg,
+            var(--accent),
+            var(--accent2)
+        );
+}
+
+/* =========================
+   TABLE
+========================= */
+
+.table-wrap{
+    overflow:auto;
+}
+
+.table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:12px;
+}
+
+.table th,
+.table td{
+    padding:11px 9px;
+    border-bottom:1px solid #1d3047;
+    text-align:left;
+    white-space:nowrap;
+}
+
+.table th{
+    color:#8094ad;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+}
+
+/* =========================
+   FOOTER / TOAST
+========================= */
+
+.footer-note{
+    margin-top:18px;
+    color:#71859d;
+    font-size:11px;
+    line-height:1.5;
+}
+
+.hidden{
+    display:none!important;
+}
+
+.toast{
+    position:fixed;
+    right:22px;
+    bottom:22px;
+    background:#10253b;
+    border:1px solid #315170;
+    border-radius:11px;
+    padding:12px 15px;
+    box-shadow:0 18px 55px #0008;
+    z-index:20;
+    font-size:12px;
+    max-width:360px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:1050px){
+
+    .app{
+        grid-template-columns:1fr;
+    }
+
+    .sidebar{
+        position:static;
+        height:auto;
+        border-right:0;
+        border-bottom:1px solid var(--line);
+    }
+
+    .nav{
+        grid-template-columns:repeat(5,1fr);
+    }
+
+    .side-note{
+        display:none;
+    }
+
+    .setup-grid{
+        grid-template-columns:1fr;
+    }
+
+    .g4{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:700px){
+
+    .content{
+        padding:15px;
+    }
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .g2,
+    .g3,
+    .g4{
+        grid-template-columns:1fr;
+    }
+
+    .stepper{
+        grid-template-columns:repeat(4,1fr);
+    }
+
+    .hero{
+        display:block;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- =====================================================
+     SIDEBAR
+====================================================== -->
+
+<aside class="sidebar">
+
+<div class="brand">
+
+<div class="logo">
+M
+</div>
+
+<div>
+<strong>META ADS</strong>
+<span>COMMAND CENTER</span>
+</div>
+
+</div>
+
+<div class="nav">
+
+<button class="active" data-page="start">
+01 Start
+</button>
+
+<button data-page="setup">
+02 Guided Setup
+</button>
+
+<button data-page="monitor">
+03 Monitor
+</button>
+
+<button data-page="analyze">
+04 Analyze
+</button>
+
+<button data-page="deploy">
+05 Deploy
+</button>
+
+</div>
+
+<div class="side-note">
+
+<b>Security</b>
+
+<br>
+
+Access Token is session-only.
+
+This static GitHub Pages application
+never writes the token to GitHub,
+localStorage or exported reports.
+
+</div>
+
+</aside>
+
+
+<!-- =====================================================
+     MAIN
+====================================================== -->
+
+<main class="main">
+
+<header class="topbar">
+
+<b>
+Meta Ads Specialist Console
+</b>
+
+<div class="status">
+
+<i class="dot"></i>
+
+<span>
+Local workspace ready
+</span>
+
+</div>
+
+</header>
+
+
+<div class="content">
+
+
+<!-- =====================================================
+     START
+====================================================== -->
+
+<section
+id="page-start"
+class="page active"
+>
+
+<div class="hero">
+
+<div>
+
+<h1>
+Meta Ads Command Center
+</h1>
+
+<p>
+Prepare, validate, monitor, analyze and control
+your Meta advertising workflow from one concise
+application.
+</p>
+
+</div>
+
+<span
+class="badge neutral"
+id="modeBadge"
+>
+MODE: NOT SELECTED
+</span>
+
+</div>
+
+
+<div class="grid g2">
+
+
+<div class="card">
+
+<div class="label">
+01 Start
+</div>
+
+<h2>
+Choose operating mode
+</h2>
+
+<p class="muted small">
+
+Free / Organic focuses on Page and content checks.
+
+Paid unlocks the complete Ads setup,
+tracking and campaign workflow.
+
+</p>
+
+
+<div
+class="grid g2"
+style="margin-top:16px"
+>
+
+<button
+class="btn"
+onclick="chooseMode('organic')"
+>
+FREE / ORGANIC
+</button>
+
+<button
+class="btn primary"
+onclick="chooseMode('paid')"
+>
+PAID ADS
+</button>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="label">
+Workflow
+</div>
+
+<div class="checklist">
+
+<div class="check">
+<span>Guided Setup</span>
+<span class="badge neutral">8 STEPS</span>
+</div>
+
+<div class="check">
+<span>Monitor</span>
+<span class="badge neutral">HEALTH</span>
+</div>
+
+<div class="check">
+<span>Analyze</span>
+<span class="badge neutral">RULE ENGINE</span>
+</div>
+
+<div class="check">
+<span>Deploy</span>
+<span class="badge neutral">DRAFT CONTROL</span>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div
+class="card"
+style="margin-top:15px"
+>
+
+<div class="label">
+Official Meta access
+</div>
+
+<div class="row">
+
+<a
+class="btn link"
+href="https://business.facebook.com/"
+target="_blank"
+rel="noopener noreferrer"
+>
+META BUSINESS ↗
+</a>
+
+<a
+class="btn link"
+href="https://adsmanager.facebook.com/"
+target="_blank"
+rel="noopener noreferrer"
+>
+ADS MANAGER ↗
+</a>
+
+<a
+class="btn link"
+href="https://business.facebook.com/events_manager"
+target="_blank"
+rel="noopener noreferrer"
+>
+EVENTS MANAGER ↗
+</a>
+
+<a
+class="btn link"
+href="https://developers.facebook.com/apps/"
+target="_blank"
+rel="noopener noreferrer"
+>
+DEVELOPER APPS ↗
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     GUIDED SETUP
+====================================================== -->
+
+<section
+id="page-setup"
+class="page"
+>
+
+<div class="hero">
+
+<div>
+
+<h1>
+Guided Setup
+</h1>
+
+<p>
+Complete each item, validate it, then continue.
+Every official Meta link opens outside this
+application in a new tab.
+</p>
+
+</div>
+
+<span
+class="badge neutral"
+id="setupMode"
+>
+MODE
+</span>
+
+</div>
+
+
+<div
+class="stepper"
+id="stepper"
+>
+</div>
+
+
+<div class="setup-grid">
+
+
+<div class="card">
+
+<div
+class="label"
+id="stepLabel"
+>
+STEP 1 OF 8
+</div>
+
+<h2 id="stepTitle"></h2>
+
+<p
+class="muted small"
+id="stepHelp"
+></p>
+
+<div id="stepFields"></div>
+
+
+<div
+class="row between"
+style="margin-top:18px"
+>
+
+<button
+class="btn ghost"
+onclick="prevStep()"
+>
+← Back
+</button>
+
+
+<div class="row">
+
+<button
+class="btn"
+onclick="validateStep()"
+>
+Save / Validate
+</button>
+
+<button
+class="btn primary"
+onclick="nextStep()"
+>
+Continue →
+</button>
+
+</div>
+
+</div>
+
+
+<div
+id="stepResult"
+style="margin-top:14px"
+>
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="label">
+Official Meta page
+</div>
+
+
+<div class="official">
+
+<div
+id="officialName"
+style="font-weight:800;margin-bottom:7px"
+>
+</div>
+
+<a
+id="officialLink"
+href="#"
+target="_blank"
+rel="noopener noreferrer"
+>
+OPEN OFFICIAL META PAGE ↗
+</a>
+
+</div>
+
+
+<div
+class="alert"
+style="margin-top:14px"
+>
+
+External links always open in a new
+browser tab. The application page remains open.
+
+</div>
+
+
+<div class="footer-note">
+
+Production API publishing requires secure
+server-side OAuth/Marketing API.
+
+A static GitHub Pages application cannot keep
+an access token secret from the browser.
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     MONITOR
+====================================================== -->
+
+<section
+id="page-monitor"
+class="page"
+>
+
+<div class="hero">
+
+<div>
+
+<h1>
+Monitor
+</h1>
+
+<p>
+Operational health dashboard populated
+from the setup state.
+</p>
+
+</div>
+
+<button
+class="btn primary"
+onclick="runMonitor()"
+>
+REFRESH MONITOR
+</button>
+
+</div>
+
+
+<div class="grid g4">
+
+
+<div class="card">
+
+<div class="label">
+Setup Completion
+</div>
+
+<div
+class="kpi"
+id="mSetup"
+>
+0%
+</div>
+
+<div class="progress">
+
+<i id="mSetupBar"></i>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="label">
+Pixel / Dataset
+</div>
+
+<div
+class="kpi"
+id="mPixel"
+>
+NOT SET
+</div>
+
+<span class="badge neutral">
+Tracking
+</span>
+
+</div>
+
+
+<div class="card">
+
+<div class="label">
+CAPI
+</div>
+
+<div
+class="kpi"
+id="mCapi"
+>
+NOT SET
+</div>
+
+<span class="badge neutral">
+Server Events
+</span>
+
+</div>
+
+
+<div class="card">
+
+<div class="label">
+Account Health
+</div>
+
+<div
+class="kpi"
+id="mHealth"
+>
+—
+</div>
+
+<span class="badge neutral">
+Rule score
+</span>
+
+</div>
+
+</div>
+
+
+<div
+class="grid g2"
+style="margin-top:15px"
+>
+
+
+<div class="card">
+
+<h3>
+Tracking Health
+</h3>
+
+<div
+class="checklist"
+id="trackingList"
+>
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>
+Account Checks
+</h3>
+
+<div
+class="checklist"
+id="accountList"
+>
+</div>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     ANALYZE
+====================================================== -->
+
+<section
+id="page-analyze"
+class="page"
+>
+
+<div class="hero">
+
+<div>
+
+<h1>
+Analyze
+</h1>
+
+<p>
+Rule-based Meta Ads specialist checks for
+setup, tracking, funnel and campaign readiness.
+</p>
+
+</div>
+
+<button
+class="btn primary"
+onclick="runAnalysis()"
+>
+RUN ANALYSIS
+</button>
+
+</div>
+
+
+<div class="grid g3">
+
+
+<div class="card">
+
+<div class="label">
+Meta Ads Health Score
+</div>
+
+<div
+class="row"
+style="justify-content:center;margin:12px 0"
+>
+
+<div
+class="score-ring"
+id="scoreRing"
+style="--score:0"
+>
+
+<span id="healthScore">
+0
+</span>
+
+</div>
+
+</div>
+
+<p
+class="muted small"
+style="text-align:center"
+id="scoreText"
+>
+Complete setup for a meaningful score.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h3>
+Audit Components
+</h3>
+
+<div id="analysisBars">
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>
+Priority Recommendations
+</h3>
+
+<div
+class="checklist"
+id="recommendations"
+>
+</div>
+
+</div>
+
+</div>
+
+
+<div
+class="card"
+style="margin-top:15px"
+>
+
+<h3>
+Campaign / Funnel Analyzer
+</h3>
+
+
+<div class="grid g4">
+
+
+<div class="field">
+
+<label>
+Impressions
+</label>
+
+<input
+id="impressions"
+type="number"
+value="100000"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Clicks
+</label>
+
+<input
+id="clicks"
+type="number"
+value="3000"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Leads
+</label>
+
+<input
+id="leads"
+type="number"
+value="50"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Purchases
+</label>
+
+<input
+id="purchases"
+type="number"
+value="10"
+>
+
+</div>
+
+
+</div>
+
+
+<button
+class="btn"
+onclick="analyzeFunnel()"
+>
+CALCULATE FUNNEL
+</button>
+
+
+<div
+id="funnelResult"
+style="margin-top:15px"
+>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     DEPLOY
+====================================================== -->
+
+<section
+id="page-deploy"
+class="page"
+>
+
+<div class="hero">
+
+<div>
+
+<h1>
+Deploy
+</h1>
+
+<p>
+Prepare a campaign draft and export an audit
+report. Direct campaign publishing remains
+protected behind a secure API layer.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="grid g2">
+
+
+<div class="card">
+
+<div class="label">
+Campaign Draft
+</div>
+
+
+<div class="field">
+
+<label>
+Campaign Name
+</label>
+
+<input
+id="campaignName"
+placeholder="Example: Q4 Lead Generation"
+>
+
+</div>
+
+
+<div class="grid g2">
+
+
+<div class="field">
+
+<label>
+Objective
+</label>
+
+<select id="objective">
+
+<option>Leads</option>
+<option>Sales</option>
+<option>Traffic</option>
+<option>Engagement</option>
+<option>Awareness</option>
+<option>App Promotion</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Daily Budget
+</label>
+
+<input
+id="budget"
+type="number"
+min="0"
+placeholder="0"
+>
+
+</div>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Audience / Notes
+</label>
+
+<textarea
+id="audience"
+rows="4"
+placeholder="Audience, geography, placement notes..."
+></textarea>
+
+</div>
+
+
+<button
+class="btn primary"
+onclick="saveDraft()"
+>
+SAVE CAMPAIGN DRAFT
+</button>
+
+
+<div
+id="draftResult"
+style="margin-top:12px"
+>
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="label">
+Deployment Gate
+</div>
+
+<div
+class="checklist"
+id="deployGate"
+>
+</div>
+
+
+<div
+class="alert"
+style="margin-top:14px"
+>
+
+This GitHub Pages build does not directly
+publish ads.
+
+Real campaign publishing requires secure
+server-side OAuth/Marketing API so secrets
+are not exposed in the browser.
+
+</div>
+
+
+<div
+class="row"
+style="margin-top:14px"
+>
+
+<a
+class="btn link"
+href="https://adsmanager.facebook.com/"
+target="_blank"
+rel="noopener noreferrer"
+>
+OPEN ADS MANAGER ↗
+</a>
+
+
+<button
+class="btn"
+onclick="downloadReport()"
+>
+EXPORT HTML REPORT
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+</div>
+
+</main>
+
+</div>
+
+
+<div
+id="toast"
+class="toast hidden"
+>
+</div>
+
+
+<script>
+
+/* =====================================================
+   META SETUP DEFINITION
+====================================================== */
+
+const META = {
+
+steps:[
+
+{
+key:"businessId",
+title:"Business ID",
+help:"Enter the Meta Business Manager / Business ID.",
+official:"Meta Business Settings",
+url:"https://business.facebook.com/settings",
+placeholder:"Example: 123456789012345"
+},
+
+{
+key:"pageId",
+title:"Facebook Page ID",
+help:"Enter the Facebook Page ID associated with the operation.",
+official:"Facebook Pages",
+url:"https://www.facebook.com/pages",
+placeholder:"Example: 123456789012345"
+},
+
+{
+key:"adAccountId",
+title:"Ad Account ID",
+help:"Enter the Ad Account ID, with or without the act_ prefix.",
+official:"Meta Ads Manager",
+url:"https://adsmanager.facebook.com/",
+placeholder:"Example: act_123456789012345"
+},
+
+{
+key:"pixelId",
+title:"Pixel / Dataset ID",
+help:"Enter the Pixel or Dataset ID used for web/server events.",
+official:"Meta Events Manager",
+url:"https://business.facebook.com/events_manager",
+placeholder:"Example: 123456789012345"
+},
+
+{
+key:"appId",
+title:"Meta Developer App",
+help:"Enter the App ID used for your Meta integration.",
+official:"Meta for Developers — My Apps",
+url:"https://developers.facebook.com/apps/",
+placeholder:"Example: 123456789012345"
+},
+
+{
+key:"accessToken",
+title:"Access Token",
+help:"Paste a temporary token for the current browser session. It is not written to localStorage, GitHub or reports.",
+official:"Meta for Developers",
+url:"https://developers.facebook.com/",
+placeholder:"Paste access token"
+},
+
+{
+key:"tracking",
+title:"Tracking / CAPI",
+help:"Record the tracking architecture so the audit engine can evaluate readiness.",
+official:"Meta Events Manager",
+url:"https://business.facebook.com/events_manager",
+placeholder:"Pixel + CAPI / Pixel only / CAPI only"
+},
+
+{
+key:"campaign",
+title:"Campaign Draft",
+help:"Create the campaign draft parameters before Monitor → Analyze → Deploy.",
+official:"Meta Ads Manager",
+url:"https://adsmanager.facebook.com/",
+placeholder:"Campaign name"
+}
+
+]
+
+};
+
+
+/* =====================================================
+   STATE
+====================================================== */
+
+const state = {
+
+mode:
+sessionStorage.getItem("meta_mode") || "",
+
+step:0,
+
+data:
+JSON.parse(
+sessionStorage.getItem("meta_setup") || "{}"
+),
+
+validated:
+JSON.parse(
+sessionStorage.getItem("meta_validated") || "{}"
+),
+
+draft:
+JSON.parse(
+sessionStorage.getItem("meta_draft") || "{}"
+)
+
+};
+
+
+/* =====================================================
+   STORAGE
+====================================================== */
+
+function saveState(){
+
+sessionStorage.setItem(
+"meta_mode",
+state.mode
+);
+
+sessionStorage.setItem(
+"meta_setup",
+JSON.stringify(state.data)
+);
+
+sessionStorage.setItem(
+"meta_validated",
+JSON.stringify(state.validated)
+);
+
+sessionStorage.setItem(
+"meta_draft",
+JSON.stringify(state.draft)
+);
+
+}
+
+
+/* =====================================================
+   TOAST
+====================================================== */
+
+function toast(message){
+
+const element =
+document.getElementById("toast");
+
+element.textContent = message;
+
+element.classList.remove("hidden");
+
+clearTimeout(window.__toastTimer);
+
+window.__toastTimer =
+setTimeout(
+() => element.classList.add("hidden"),
+3000
+);
+
+}
+
+
+/* =====================================================
+   MODE
+====================================================== */
+
+function chooseMode(mode){
+
+state.mode = mode;
+
+saveState();
+
+document.getElementById(
+"modeBadge"
+).textContent =
+"MODE: " +
+(
+mode === "paid"
+?
+"PAID ADS"
+:
+"FREE / ORGANIC"
+);
+
+document.getElementById(
+"setupMode"
+).textContent =
+mode === "paid"
+?
+"PAID ADS"
+:
+"FREE / ORGANIC";
+
+showPage("setup");
+
+renderSetup();
+
+}
+
+
+/* =====================================================
+   NAVIGATION
+====================================================== */
+
+document
+.querySelectorAll(".nav button")
+.forEach(button => {
+
+button.addEventListener(
+"click",
+() => {
+
+showPage(
+button.dataset.page
+);
+
+});
+
+});
+
+
+function showPage(page){
+
+document
+.querySelectorAll(".page")
+.forEach(section =>
+section.classList.remove("active")
+);
+
+document
+.getElementById(
+"page-" + page
+)
+.classList.add("active");
+
+
+document
+.querySelectorAll(".nav button")
+.forEach(button =>
+button.classList.toggle(
+"active",
+button.dataset.page === page
+)
+);
+
+
+if(page === "setup")
+renderSetup();
+
+if(page === "monitor")
+runMonitor();
+
+if(page === "analyze")
+runAnalysis();
+
+if(page === "deploy")
+renderDeployGate();
+
+}
+
+
+/* =====================================================
+   STEPPER
+====================================================== */
+
+function renderStepper(){
+
+const box =
+document.getElementById("stepper");
+
+box.innerHTML =
+META.steps.map(
+(step,index) => {
+
+let className = "";
+
+if(index === state.step)
+className = "active";
+
+else if(state.validated[step.key])
+className = "done";
+
+return `
+<div class="step ${className}">
+${String(index+1).padStart(2,"0")}
+<br>
+${step.title}
+</div>
+`;
+
+}
+).join("");
+
+}
+
+
+/* =====================================================
+   HTML ESCAPE
+====================================================== */
+
+function escapeHTML(value){
+
+return String(value)
+
+.replace(/&/g,"&amp;")
+
+.replace(/"/g,"&quot;")
+
+.replace(/</g,"&lt;")
+
+.replace(/>/g,"&gt;");
+
+}
+
+
+/* =====================================================
+   SETUP
+====================================================== */
+
+function renderSetup(){
+
+renderStepper();
+
+const step =
+META.steps[state.step];
+
+document.getElementById(
+"stepLabel"
+).textContent =
+`STEP ${state.step+1} OF 8`;
+
+document.getElementById(
+"stepTitle"
+).textContent =
+step.title;
+
+document.getElementById(
+"stepHelp"
+).textContent =
+step.help;
+
+document.getElementById(
+"officialName"
+).textContent =
+step.official;
+
+document.getElementById(
+"officialLink"
+).href =
+step.url;
+
+
+const value =
+state.data[step.key] || "";
+
+let field;
+
+
+if(step.key === "accessToken"){
+
+field = `
+
+<div class="field">
+
+<label>
+Access Token
+</label>
+
+<input
+id="stepInput"
+type="password"
+autocomplete="off"
+placeholder="${step.placeholder}"
+value="${escapeHTML(value)}"
+>
+
+</div>
+
+<div class="alert">
+
+Security:
+
+The token is held only in
+sessionStorage for this browser session.
+
+Never commit it to GitHub.
+
+Production should use server-side OAuth.
+
+</div>
+
+`;
+
+}
+
+
+else if(step.key === "tracking"){
+
+field = `
+
+<div class="field">
+
+<label>
+Tracking Architecture
+</label>
+
+<select id="stepInput">
+
+<option value="">
+Select...
+</option>
+
+<option>
+Pixel + CAPI
+</option>
+
+<option>
+Pixel only
+</option>
+
+<option>
+CAPI only
+</option>
+
+</select>
+
+</div>
+
+`;
+
+}
+
+
+else{
+
+field = `
+
+<div class="field">
+
+<label>
+${step.title}
+</label>
+
+<input
+id="stepInput"
+type="text"
+autocomplete="off"
+placeholder="${step.placeholder}"
+value="${escapeHTML(value)}"
+>
+
+</div>
+
+`;
+
+}
+
+
+document.getElementById(
+"stepFields"
+).innerHTML = field;
+
+
+if(step.key === "tracking" && value){
+
+document.getElementById(
+"stepInput"
+).value = value;
+
+}
+
+
+document.getElementById(
+"stepResult"
+).innerHTML =
+
+state.validated[step.key]
+
+?
+
+`
+<span class="badge good">
+✓ VALIDATED / SAVED
+</span>
+`
+
+:
+
+"";
+
+}
+
+
+/* =====================================================
+   VALIDATE
+====================================================== */
+
+function validateStep(){
+
+const step =
+META.steps[state.step];
+
+const input =
+document.getElementById("stepInput");
+
+const value =
+(input?.value || "").trim();
+
+
+if(!value){
+
+toast(
+"Please enter a value before validation."
+);
+
+return false;
+
+}
+
+
+state.data[step.key] =
+value;
+
+state.validated[step.key] =
+true;
+
+saveState();
+
+renderSetup();
+
+toast(
+`${step.title} saved and validated locally.`
+);
+
+return true;
+
+}
+
+
+/* =====================================================
+   NEXT
+====================================================== */
+
+function nextStep(){
+
+const step =
+META.steps[state.step];
+
+if(
+!state.validated[step.key]
+){
+
+if(!validateStep())
+return;
+
+}
+
+
+if(state.step < 7){
+
+state.step++;
+
+renderSetup();
+
+}
+
+else{
+
+toast(
+"Guided Setup complete. Moving to Monitor."
+);
+
+showPage("monitor");
+
+}
+
+}
+
+
+/* =====================================================
+   BACK
+====================================================== */
+
+function prevStep(){
+
+if(state.step > 0){
+
+state.step--;
+
+renderSetup();
+
+}
+
+else{
+
+showPage("start");
+
+}
+
+}
+
+
+/* =====================================================
+   SETUP SCORE
+====================================================== */
+
+function setupCompletion(){
+
+return Math.round(
+
+META.steps.filter(
+step =>
+state.validated[step.key]
+).length
+
+/ 8 * 100
+
+);
+
+}
+
+
+/* =====================================================
+   CHECK ROW
+====================================================== */
+
+function checkRow(
+name,
+ready
+){
+
+return `
+
+<div class="check">
+
+<span>
+${name}
+</span>
+
+<span
+class="badge ${ready ? "good" : "warn"}"
+>
+
+${ready ? "✓ READY" : "! ACTION"}
+
+</span>
+
+</div>
+
+`;
+
+}
+
+
+/* =====================================================
+   MONITOR
+====================================================== */
+
+function runMonitor(){
+
+const completion =
+setupCompletion();
+
+
+document.getElementById(
+"mSetup"
+).textContent =
+completion + "%";
+
+
+document.getElementById(
+"mSetupBar"
+).style.width =
+completion + "%";
+
+
+document.getElementById(
+"mPixel"
+).textContent =
+state.validated.pixelId
+?
+"READY"
+:
+"NOT SET";
+
+
+document.getElementById(
+"mCapi"
+).textContent =
+
+state.validated.tracking &&
+/CAPI/i.test(
+state.data.tracking || ""
+)
+
+?
+
+"READY"
+
+:
+
+"NOT SET";
+
+
+const accountChecks = [
+
+[
+"Business ID",
+!!state.validated.businessId
+],
+
+[
+"Facebook Page ID",
+!!state.validated.pageId
+],
+
+[
+"Ad Account ID",
+!!state.validated.adAccountId
+],
+
+[
+"Developer App",
+!!state.validated.appId
+]
+
+];
+
+
+document.getElementById(
+"accountList"
+).innerHTML =
+
+accountChecks
+.map(item =>
+checkRow(
+item[0],
+item[1]
+)
+)
+.join("");
+
+
+const trackingChecks = [
+
+[
+"Pixel / Dataset ID",
+!!state.validated.pixelId
+],
+
+[
+"Tracking architecture",
+!!state.validated.tracking
+],
+
+[
+"Access Token",
+!!state.validated.accessToken
+],
+
+[
+"Campaign Draft",
+!!state.validated.campaign
+]
+
+];
+
+
+document.getElementById(
+"trackingList"
+).innerHTML =
+
+trackingChecks
+.map(item =>
+checkRow(
+item[0],
+item[1]
+)
+)
+.join("");
+
+
+const health = Math.max(
+
+0,
+
+Math.min(
+
+100,
+
+Math.round(
+
+completion * 0.7
+
++
+
+(
+state.validated.accessToken
+?
+15
+:
+0
+)
+
++
+
+(
+state.validated.pixelId
+?
+10
+:
+0
+)
+
++
+
+(
+state.validated.tracking
+?
+5
+:
+0
+)
+
+)
+
+)
+
+);
+
+
+document.getElementById(
+"mHealth"
+).textContent =
+health;
+
+}
+
+
+/* =====================================================
+   ANALYSIS
+====================================================== */
+
+function runAnalysis(){
+
+const validated =
+state.validated;
+
+
+const components = [
+
+[
+"Setup Readiness",
+setupCompletion()
+],
+
+[
+"Business / Account",
+
+Math.round(
+
+[
+validated.businessId,
+validated.pageId,
+validated.adAccountId
+
+]
+.filter(Boolean)
+.length
+
+/ 3 * 100
+
+)
+
+],
+
+[
+"Tracking Readiness",
+
+Math.round(
+
+[
+validated.pixelId,
+validated.tracking,
+validated.accessToken
+
+]
+.filter(Boolean)
+.length
+
+/ 3 * 100
+
+)
+
+],
+
+[
+"Developer Integration",
+
+Math.round(
+
+[
+validated.appId,
+validated.accessToken
+
+]
+.filter(Boolean)
+.length
+
+/ 2 * 100
+
+)
+
+],
+
+[
+"Campaign Readiness",
+
+validated.campaign
+?
+100
+:
+0
+
+]
+
+];
+
+
+const score =
+
+Math.round(
+
+components.reduce(
+(sum,item) =>
+sum + item[1],
+0
+)
+
+/
+
+components.length
+
+);
+
+
+document.getElementById(
+"healthScore"
+).textContent =
+score;
+
+
+document
+.getElementById("scoreRing")
+.style
+.setProperty(
+"--score",
+score
+);
+
+
+document.getElementById(
+"scoreText"
+).textContent =
+
+score >= 80
+
+?
+
+"Strong operational readiness."
+
+:
+
+"Complete the highlighted setup items before deployment.";
+
+
+document.getElementById(
+"analysisBars"
+).innerHTML =
+
+components.map(
+item => `
+
+<div class="bar">
+
+<div class="row between">
+
+<span>
+${item[0]}
+</span>
+
+<b>
+${item[1]}
+</b>
+
+</div>
+
+<div class="barline">
+
+<i
+style="width:${item[1]}%"
+></i>
+
+</div>
+
+</div>
+
+`
+).join("");
+
+
+const recommendations = [];
+
+
+if(!validated.businessId)
+recommendations.push(
+"Add and validate Business ID."
+);
+
+
+if(!validated.adAccountId)
+recommendations.push(
+"Add and validate Ad Account ID."
+);
+
+
+if(!validated.pixelId)
+recommendations.push(
+"Add Pixel / Dataset ID."
+);
+
+
+if(!validated.tracking)
+recommendations.push(
+"Define Pixel / CAPI architecture."
+);
+
+
+if(!validated.accessToken)
+recommendations.push(
+"Add a temporary access token for API testing."
+);
+
+
+if(!validated.campaign)
+recommendations.push(
+"Create a campaign draft."
+);
+
+
+if(!recommendations.length){
+
+recommendations.push(
+"Core setup is complete. Proceed to funnel and campaign analysis."
+);
+
+}
+
+
+document.getElementById(
+"recommendations"
+).innerHTML =
+
+recommendations.map(
+item => `
+
+<div class="check">
+
+<span>
+${item}
+</span>
+
+<span
+class="badge ${
+recommendations.length > 1
+?
+"warn"
+:
+"good"
+}"
+>
+
+${
+recommendations.length > 1
+?
+"ACTION"
+:
+"OK"
+}
+
+</span>
+
+</div>
+
+`
+).join("");
+
+}
+
+
+/* =====================================================
+   FUNNEL
+====================================================== */
+
+function analyzeFunnel(){
+
+const impressions =
+Number(
+document.getElementById(
+"impressions"
+).value
+) || 0;
+
+
+const clicks =
+Number(
+document.getElementById(
+"clicks"
+).value
+) || 0;
+
+
+const leads =
+Number(
+document.getElementById(
+"leads"
+).value
+) || 0;
+
+
+const purchases =
+Number(
+document.getElementById(
+"purchases"
+).value
+) || 0;
+
+
+const ctr =
+impressions
+?
+clicks / impressions * 100
+:
+0;
+
+
+const leadRate =
+clicks
+?
+leads / clicks * 100
+:
+0;
+
+
+const purchaseRate =
+leads
+?
+purchases / leads * 100
+:
+0;
+
+
+const rows = [
+
+[
+"CTR",
+ctr.toFixed(2) + "%",
+ctr < 1
+?
+"Review creative / hook"
+:
+"Healthy"
+],
+
+[
+"Click → Lead",
+leadRate.toFixed(2) + "%",
+leadRate < 2
+?
+"Review landing / form"
+:
+"Healthy"
+],
+
+[
+"Lead → Purchase",
+purchaseRate.toFixed(2) + "%",
+purchaseRate < 10
+?
+"Review offer / follow-up"
+:
+"Healthy"
+]
+
+];
+
+
+document.getElementById(
+"funnelResult"
+).innerHTML = `
+
+<div class="table-wrap">
+
+<table class="table">
+
+<thead>
+
+<tr>
+
+<th>
+Metric
+</th>
+
+<th>
+Result
+</th>
+
+<th>
+Interpretation
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+${
+
+rows.map(
+row => `
+
+<tr>
+
+<td>
+${row[0]}
+</td>
+
+<td>
+<b>
+${row[1]}
+</b>
+</td>
+
+<td>
+${row[2]}
+</td>
+
+</tr>
+
+`
+).join("")
+
+}
+
+</tbody>
+
+</table>
+
+</div>
+
+`;
+
+}
+
+
+/* =====================================================
+   CAMPAIGN DRAFT
+====================================================== */
+
+function saveDraft(){
+
+const name =
+document.getElementById(
+"campaignName"
+).value.trim();
+
+
+if(!name){
+
+toast(
+"Campaign name is required."
+);
+
+return;
+
+}
+
+
+state.draft = {
+
+name,
+
+objective:
+document.getElementById(
+"objective"
+).value,
+
+budget:
+document.getElementById(
+"budget"
+).value,
+
+audience:
+document.getElementById(
+"audience"
+).value,
+
+updated:
+new Date().toISOString()
+
+};
+
+
+state.data.campaign =
+name;
+
+state.validated.campaign =
+true;
+
+
+saveState();
+
+
+document.getElementById(
+"draftResult"
+).innerHTML =
+
+`
+<span class="badge good">
+✓ CAMPAIGN DRAFT SAVED
+</span>
+`;
+
+
+renderDeployGate();
+
+toast(
+"Campaign draft saved."
+);
+
+}
+
+
+/* =====================================================
+   DEPLOY GATE
+====================================================== */
+
+function renderDeployGate(){
+
+const gate = [
+
+[
+"Business ID",
+!!state.validated.businessId
+],
+
+[
+"Page ID",
+!!state.validated.pageId
+],
+
+[
+"Ad Account ID",
+!!state.validated.adAccountId
+],
+
+[
+"Pixel / Dataset",
+!!state.validated.pixelId
+],
+
+[
+"Tracking / CAPI",
+!!state.validated.tracking
+],
+
+[
+"Campaign Draft",
+!!state.validated.campaign
+]
+
+];
+
+
+document.getElementById(
+"deployGate"
+).innerHTML =
+
+gate.map(
+item =>
+checkRow(
+item[0],
+item[1]
+)
+)
+.join("");
+
+
+if(state.draft.name){
+
+document.getElementById(
+"campaignName"
+).value =
+state.draft.name;
+
+
+document.getElementById(
+"objective"
+).value =
+state.draft.objective || "Leads";
+
+
+document.getElementById(
+"budget"
+).value =
+state.draft.budget || "";
+
+
+document.getElementById(
+"audience"
+).value =
+state.draft.audience || "";
+
+}
+
+}
+
+
+/* =====================================================
+   REPORT
+====================================================== */
+
+function downloadReport(){
+
+const report = {
+
+product:
+"Meta Ads Command Center",
+
+generated:
+new Date().toISOString(),
+
+mode:
+state.mode,
+
+setupCompletion:
+setupCompletion(),
+
+validated:
+state.validated,
+
+campaign:
+state.draft,
+
+security:
+"Access tokens are excluded from this report."
+
+};
+
+
+const body =
+JSON.stringify(
+report,
+null,
+2
+);
+
+
+const html = `
+
+<!doctype html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8">
+
+<title>
+Meta Ads Audit Report
+</title>
+
+<style>
+
+body{
+font-family:Arial;
+max-width:900px;
+margin:40px auto;
+color:#172033;
+}
+
+pre{
+white-space:pre-wrap;
+background:#f3f5f8;
+padding:20px;
+border-radius:10px;
+}
+
+h1{
+color:#0f766e;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>
+Meta Ads Command Center Report
+</h1>
+
+<p>
+Generated:
+${new Date().toLocaleString()}
+</p>
+
+<p>
+<b>Security:</b>
+Access tokens are excluded.
+</p>
+
+<pre>
+${body}
+</pre>
+
+</body>
+
+</html>
+
+`;
+
+
+const blob =
+new Blob(
+[html],
+{
+type:"text/html;charset=utf-8"
+}
+);
+
+
+const link =
+document.createElement("a");
+
+
+link.href =
+URL.createObjectURL(blob);
+
+
+link.download =
+"meta-ads-command-center-report.html";
+
+
+link.click();
+
+
+setTimeout(
+() =>
+URL.revokeObjectURL(
+link.href
+),
+1000
+);
+
+}
+
+
+/* =====================================================
+   INITIALIZE
+====================================================== */
+
+renderSetup();
+
+if(state.mode){
+
+document.getElementById(
+"modeBadge"
+).textContent =
+"MODE: " +
+(
+state.mode === "paid"
+?
+"PAID ADS"
+:
+"FREE / ORGANIC"
+);
+
+document.getElementById(
+"setupMode"
+).textContent =
+state.mode === "paid"
+?
+"PAID ADS"
+:
+"FREE / ORGANIC";
+
+}
+
+runMonitor();
+
+runAnalysis();
+
+renderDeployGate();
+
+</script>
+
+</body>
+</html>
